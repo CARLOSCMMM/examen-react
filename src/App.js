@@ -7,6 +7,7 @@ function App() {
     <div>
       <h1>Eventos Andalucia</h1>
       <EventForm></EventForm>
+      <EventList></EventList>
     </div>
   )
 }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import EventItem from "./EventItem";
-
+import ConfirmModal from "./ConfirmModal";
 function EventList() {
     const [eventos, setEventos] = useState([]);
     const [pagina, setPagina] = useState(1);
+    const [eventoAEliminar, setEventoAEliminar] = useState(null);
     const eventosPorPagina = 100;
 
     useEffect(() => {
@@ -13,10 +14,23 @@ function EventList() {
         .catch(err => console.error("error cargando eventos:", err))
     }, []);
 
+
    /*  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
     const inicio = (pagina -1) * eventosPorPagina;
     const eventosPagina = eventos.slice(inicio, inicio + eventosPorPagina);
  */
+    const pedirConfirmacion = (id) => {
+        setEventoAEliminar(id);
+    }
+
+    const eliminarEvento = () => {
+        fetch(`http://localhost:3000/eventos/${eventoAEliminar}`, { method: "DELETE" })
+        .then(() => {
+            setEventos(eventos.filter(e => e.id !== eventoAEliminar));
+            setEventoAEliminar(null);
+        });
+    };
+
     return (
         <div>
             <h2>Listado de eventos</h2>
@@ -34,8 +48,14 @@ function EventList() {
             </div>
 
             {eventos.map(event => (
-                <EventItem key={event.id} event={event}></EventItem>
+                <EventItem key={event.id} event={event} onDelete={pedirConfirmacion}></EventItem>
             ))}
+            {eventoAEliminar !== null && (
+                <ConfirmModal
+                message={"Seguro que quieres eliminar este evento?"}
+                onConfirm={eliminarEvento}
+                onCancel={() => setEventoAEliminar(null)}></ConfirmModal>
+            )}
         </div>
     )
 }

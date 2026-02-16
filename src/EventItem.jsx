@@ -1,4 +1,4 @@
-function EventItem({event}) {
+function EventItem({event, onDelete}) {
     const imagen = "https://www.juntadeandalucia.es" + 
     (event.image?.[0]?.thumbnail?.[0]?.image_url || "");
 
@@ -12,6 +12,8 @@ function EventItem({event}) {
             <p>{event.coste}</p>
 
             {imagen && <img src={imagen} alt={event.titulo} width="200"></img>}
+
+            <button onClick={() => onDelete(event.id)}>Eliminar</button>
         </div>
     )
 }
