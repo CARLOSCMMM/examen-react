@@ -1,11 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import EventList from './EventList';
+import EventForm from './EventForm';
 function App() {
   return (
     <div>
       <h1>Eventos Andalucia</h1>
-      <EventList></EventList>
+      <EventForm></EventForm>
     </div>
   )
 }
